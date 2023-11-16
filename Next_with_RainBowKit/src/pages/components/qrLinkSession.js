@@ -1,5 +1,7 @@
 import { useState , useEffect} from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import nextSession from "next-session";
+
 
 function SwapSession() {
   const [sessionId, setSessionId] = useState(''); 
