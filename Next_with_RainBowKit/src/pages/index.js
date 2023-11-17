@@ -1,23 +1,21 @@
 import { Inter } from 'next/font/google'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
-import {useAccount} from "wagmi"
-import SwapSession from '@/components/qrLinkSession'
+import { useState } from 'react';
+import TokenSelector from '@/components/Tokenselector'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const { isConnected } = useAccount();
+
+  const handleAddAssetsClick = () => {
+    setShowTokenSelector(true);
+  };
+
   return (
-    <div>
-    <main
-      className={`flex h-screen items-center justify-center ${inter.className}`}
-    >
+    <div className="flex h-screen items-center justify-center">
       <div className="flex flex-col items-center space-y-4">
         <h2 className="text-2xl font-bold">Atomic Swap</h2>
-        <ConnectButton />
-        {isConnected && <SwapSession/>}
+        <TokenSelector />
       </div>
-    </main>
     </div>
   )
 }
