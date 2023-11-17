@@ -15,8 +15,11 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { useEffect, useState } from "react";
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base, zora, polygonMumbai],
-  [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
+  [mainnet, polygon, optimism, arbitrum, base, zora,polygonMumbai],
+  [
+    alchemyProvider({ apiKey: "https://polygon-mumbai.g.alchemy.com/v2/jHsyHSa62ulp2KmhwSFfpz8dsvCOwcMP" }),
+    publicProvider()
+  ]
 );
 
 const { connectors } = getDefaultWallets({

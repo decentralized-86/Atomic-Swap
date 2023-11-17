@@ -1,21 +1,21 @@
-import { Inter } from "next/font/google";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount } from "wagmi";
-// import SwapSession from "@/components/qrLinkSession";
-import AtomicSwapUI from "./components/AtomicSwapUI";
+import { Inter } from 'next/font/google'
+import { useState } from 'react';
+import TokenSelector from '@/components/Tokenselector'
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const { isConnected } = useAccount();
+
+  const handleAddAssetsClick = () => {
+    setShowTokenSelector(true);
+  };
+
   return (
-<div className="min-h-screen bg-gray-100">
-      <header className="bg-blue-500 text-white text-center py-4">
-        <h1 className="text-2xl font-bold">Atomic Swap</h1>
-      </header>
-      <main>
-        <AtomicSwapUI />
-      </main>
+    <div className="flex h-screen items-center justify-center">
+      <div className="flex flex-col items-center space-y-4">
+        <h2 className="text-2xl font-bold">Atomic Swap</h2>
+        <TokenSelector />
+      </div>
     </div>
   );
 }
