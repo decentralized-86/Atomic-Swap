@@ -1,86 +1,64 @@
-import { useState, useEffect } from 'react';
-import { QRCodeSVG } from 'qrcode.react';
-import sha256 from 'crypto-js/sha256';
+import { useState, useEffect } from "react";
+import { QRCodeSVG } from "qrcode.react";
 
-function SwapSession({ userAddress, tokenContractAddress , tokenId ,title}) {
-  const [sessionId, setSessionId] = useState('');
-  const [sessionURL, setSessionURL] = useState(''); 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const baseURL = 'http://localhost:3000/swap';
+function SwapSession() {
+    const [sessionId, setSessionId] = useState("");
+    const baseURL = "https://AtomicSwap.com/swap";
 
-  const generateSessionId = () => {
-    if (!userAddress || !tokenContractAddress || !tokenId) {
-      setError("Invalid token or user information.");
-      return;
-    }
+    const generateSessionId = () => {
+        console.log("Entered session id");
+        const uniqueId = "22432424";
+        setSessionId(uniqueId);
+        console.log("Session Id is been set okay ");
+    };
 
-    setIsLoading(true);
-    console.log("Generating session ID...");
+    const handleCopyClick = () => {
+        if (sessionId) {
+            navigator.clipboard.writeText(sessionURL);
+            alert("Session URL copied to clipboard!");
+        }
+    };
 
-    try {
-      const uniqueId = sha256(`${userAddress}-${tokenContractAddress}-${tokenId}-${Date.now()}`).toString();
-      setSessionId(uniqueId);
-      console.log("Session ID set:", uniqueId);
-      const sessionURL = `${baseURL}?session_id=${uniqueId}&userAddress=${encodeURIComponent(userAddress)}&title=${encodeURIComponent(title)}`;
-      setSessionURL(sessionURL);
+    useEffect(() => {
+        console.log("Session Id", sessionId);
+    }, [sessionId]);
 
-    } catch (e) {
-      console.error("Error generating session ID:", e);
-      setError("Failed to generate session ID.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const sessionURL = sessionId ? `${baseURL}?session_id=${sessionId}` : "";
 
-  const handleCopyClick = () => {
-    if (sessionURL) { 
-      navigator.clipboard.writeText(sessionURL)
-        .then(() => alert('Session URL copied to clipboard!'))
-        .catch(() => setError('Failed to copy URL to clipboard.'));
-    }
-  };
-
-  useEffect(() => {
-    if (error) {
-      alert(error);
-      setError('');
-    }
-  }, [error]);
-
-  return (
-    <div className="flex flex-col items-center space-y-4">
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded"
-        onClick={generateSessionId}
-        disabled={isLoading}
-      >
-        {isLoading ? "Creating Session..." : "Create Swap Session"}
-      </button>
-
-      {sessionId && (
-        <>
-          <QRCodeSVG value={sessionURL} />
-
-          <div>
-            Session URL:
-            <a href={sessionURL} target="_blank" rel="noopener noreferrer">
-              {sessionURL}
-            </a>
-            <span
-              role="button"
-              className="cursor-pointer text-blue-500"
-              onClick={handleCopyClick}
+    return (
+        <div className="flex flex-col items-center space-y-4">
+            <button
+                disabled={sessionId}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={generateSessionId}
             >
-              (Copy)
-            </span>
-          </div>
-        </>
-      )}
+                Create Swap Session
+            </button>
 
-      {error && <p className="text-red-500">{error}</p>}
-    </div>
-  );
+            {sessionId && (
+                <>
+                    <QRCodeSVG value={sessionURL} />
+                    <p>
+                        Session URL:{" "}
+                        <a
+                            href={sessionURL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {sessionURL}
+                        </a>{" "}
+                        <span
+                            role="button"
+                            className="cursor-pointer text-blue-500"
+                            onClick={handleCopyClick}
+                        >
+                            (Copy)
+                        </span>
+                    </p>
+                </>
+            )}
+        </div>
+    );
 }
 
 export default SwapSession;

@@ -2,7 +2,7 @@ import { Inter } from 'next/font/google'
 import { useState } from 'react';
 import TokenSelector from '@/components/Tokenselector'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
 
